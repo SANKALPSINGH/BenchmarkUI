@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hike.appBenchmark.benchmarkProcess.BenchmarkDao">
+
+	<insert id="insertRun" parameterType="Run" useGeneratedKeys="true" keyProperty="run.runId" keyColumn="run_id">
+		INSERT INTO
+			run(apk_version)
+		VALUES(#{run.apkVersion})
+	</insert>
+
+	<update id="updateBuildVersionForRun" parameterType="Run" >
+		UPDATE run SET apk_version=#{run.apkVersion} WHERE run_id=#{run.runId};
+	</update>
+
+	<select id="getAllPercentiles" resultMap="PercentileMap">
+		SELECT * FROM percentile
+	</select>
+
+	<select id="getAllActions" resultMap="ActionMap">
+		SELECT * FROM actions
+	</select>
+
+	<insert id="insertIntoRunPercentile" parameterType="RunPercentile" useGeneratedKeys="true" keyProperty="runPercentile.runPercentileId" keyColumn="run_percentile_id">
+		INSERT INTO
+			run_percentile(run_id, run_percentile)
+		VALUES(#{runPercentile.run.runId}, #{runPercentile.runPercentile.percentile})
+	</insert>
+
+	<insert id="insertIntoRunData" parameterType="RunData">
+		INSERT INTO
+			run_data
+		VALUES(#{runData.runPercentile.runPercentileId}, #{runData.action.actions}, #{runData.reading1}, #{runData.reading2},
+			#{runData.reading3}, #{runData.reading4}, #{runData.reading5}, #{runData.total}, #{runData.average})
+	</insert>
+
+	<resultMap id="PercentileMap" type="Percentile">
+		<result property="percentile" column="run_percentile_number" />
+		<result property="msisdn" column="msisdn" />
+		<result property="chatMsisdn" column="msisdn_to_test_on" />
+	</resultMap>
+
+	<resultMap id="ActionMap" type="Actions">
+		<result property="actions" column="actions" />
+	</resultMap>
+
+</mapper>

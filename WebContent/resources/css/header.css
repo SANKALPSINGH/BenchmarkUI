@@ -1,0 +1,240 @@
+html {
+	background-color: #fff;
+}
+
+body {
+	font: 14px/1.5 Arial, Helvetica, sans-serif;
+	padding: 0;
+	margin: 0;
+	background-color: white;
+}
+
+#footer {
+	bottom: 0;
+	position: fixed;
+	width: 100%;
+	height: 28px;
+	left: 0;
+	text-align: center;
+	background-color: #fff;
+}
+
+#dexterImage {
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	float: right;
+	line-height: 40px;
+	max-width: 90px;
+	padding: 0px 20px;
+	margin-left: -100px;
+}
+
+header {
+	padding-bottom: 500px;
+}
+
+.header-basic-light .header-limiter .header-user-menu {
+	position: relative;
+	float: right;
+	background-color: #fff;
+	/* width:75px; */
+	height: 40px;
+	border-radius: 2px;
+	margin-right: -200px;
+	font-size: 14px;
+	line-height: 40px;
+	margin-top: -50px;
+}
+
+/* .header-basic-light .header-limiter .header-user-menu span:after {
+	content: '';
+	width:0;
+	height: 0;
+	top: 18px;
+	left: 15px;
+	border: 5px solid transparent;
+	border-top-color: #000;
+	vertical-align: center;
+} */
+.header-basic-light .header-limiter .header-user-menu ul {
+	display: none;
+	font: bold 12px Arial, Helvetica, sans-serif;
+	background-color: inherit;
+	list-style: none;
+	position: absolute;
+	text-align: center;
+	width: 125px;
+	top: 25px;
+	right: 0;
+	padding: 10px;
+	border-radius: 2px;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+	box-sizing: border-box;
+}
+
+.header-basic-light .header-user-menu:active ul,.header-basic-light .header-user-menu:hover ul,.header-basic-light .header-user-menu.show ul
+	{
+	display: block;
+}
+
+.header-basic-light .header-user-menu ul li {
+	padding: 5px;
+}
+
+.header-basic-light .header-user-menu ul li a:hover {
+	opacity: 0.9;
+}
+
+.header-basic-light .header-user-menu p {
+	top: 6px;
+}
+
+.header-basic-light .header-limiter img {
+	float: left;
+	line-height: 30px;
+	max-width: 90px;
+	padding: 0;
+	height: 40px;
+	margin-left: -170px;
+}
+
+/* #cssmenu,#cssmenu .menu {
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+	box-sizing: border-box;
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+#cssmenu .menu li,#cssmenu .menu li a {
+	padding: 0px, 35px;
+	border: 0;
+	list-style: none;
+	line-height: 1;
+	display: block;
+	position: relative;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#cssmenu:after,#cssmenu>.menu:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+#cssmenu {
+	width: auto;
+	border: 3px solid #E3F2FD;
+	font-family: Raleway, sans-serif;
+	line-height: 1;
+	background: #fff;
+}
+
+#cssmenu .menu {
+	background: #fff;
+	border: 2px solid #42A5F5;
+}
+
+#cssmenu>.menu>li {
+	float: left;
+	border-left: 2px solid #42A5F5;
+	border-right: 2px solid #42A5F5;
+	width: 20%;
+	height: 40px;
+}
+
+#cssmenu.align-center>ul {
+	font-size: 0;
+	text-align: center;
+	background-color: #B3E5FC;
+	height: 40px;
+}
+
+#cssmenu.align-center>ul>li {
+	display: inline-block;
+	float: none;
+	border-radius: 10px;
+	height: 40px;
+}
+
+#cssmenu.align-right>ul>li {
+	float: right;
+}
+
+#cssmenu.align-right>ul>li>a {
+	margin-right: 0;
+	margin-left: -4px;
+
+}
+
+#cssmenu>.menu>li>a {
+	z-index: 2;
+	padding: 7px 25px 7px 25px;
+	vertical-align:middle;
+	font-size: 18px;
+	font-family: -webkit-body;
+	font-weight: 400;
+	text-decoration: none;
+	color: #000;
+	-webkit-transition: all .2s ease;
+	-moz-transition: all .2s ease;
+	-ms-transition: all .2s ease;
+	-o-transition: all .2s ease;
+	transition: all .2s ease;
+	margin-right: -4px;
+}
+
+#cssmenu>.menu>li:hover {
+	border-bottom: 3px solid #42A5F5;;
+} */
+.header-basic-light {
+	padding: 20px 0px;
+	box-sizing: border-box;
+	/* 	box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.15);
+ */
+	height: 100px;
+	background-color: #fff;
+	position: fixed;
+	width: 100%;
+	z-index: 10;
+}
+
+.header-basic-light .header-limiter {
+	max-width: 800px;
+	text-align: center;
+	margin: 0 auto;
+	margin-bottom: 8px;
+}
+
+.header-basic-light .header-limiter h1 {
+	/* float: left;
+ */
+	font: normal 52px Cookie, Arial, Helvetica, sans-serif;
+	font-weight: 500;
+	line-height: 40px;
+	margin: 0;
+}
+
+.header-basic-light .header-limiter h1 span {
+	color: #df6029;
+	font-family: monospace;
+}
+
+.header-basic-light .header-limiter a {
+	color: #5c616a;
+	text-decoration: none;
+}
+
+#content {
+	padding-top: 120px;
+	padding-bottom: 50px;
+	width: 100%;
+}
