@@ -68,6 +68,7 @@ public class JenkinsServiceImpl implements JenkinsService {
 
 	}
 
+	//TODO mail job. incorporate this with the code
 	@Override
 	public boolean triggerJob(int runId, int runInfoID, String templateName, String apkVersion, String androidGitBranch, String emailBody, String recipientList) {
 
@@ -143,13 +144,13 @@ public class JenkinsServiceImpl implements JenkinsService {
 			GenerateFileStructureForRun fileStructureObject = new GenerateFileStructureForRun(messageSource);
 			fileStructureObject.createRunFolder(String.valueOf(runID));
 			//File folder=  new File(getProperty("home.path") + userName + getProperty("jenkins.job.apk.path"));
-			File folder = new File("/Users/kumarpratyush/Downloads");
+			File folder = new File("/Users/" + userName + "/Downloads/apks");
 			File[] listOfApk = folder.listFiles();
 
 			for (int i = 0; i < listOfApk.length; i++) {
 				if (listOfApk[i].isFile()) {
 					String fileName= listOfApk[i].getName();
-					if(fileName.contains("debug")&& !(fileName.contains("customDev"))) {
+					if(fileName.contains("obfuscated")&& !(fileName.contains("customDev"))) {
 						Files.copy(listOfApk[i].toPath(), new File(getProperty("home.path") + userName + getProperty("apk.path") + "/" + runID +
 								getProperty("apk.name.suffix")).toPath(), StandardCopyOption.REPLACE_EXISTING);
 						return;

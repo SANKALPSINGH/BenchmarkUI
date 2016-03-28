@@ -98,17 +98,15 @@ public class DiffStatsContoller {
         try {
             for(RunData eachData : dataList) {
                 String percentile = String.valueOf(eachData.getRunPercentile().getRunPercentile().getPercentile());
-                if(eachData.getAction().getActions().equalsIgnoreCase("App Kill and Reopen")) {
+                if(eachData.getAction().getActions().equalsIgnoreCase("App Force Stop")) {
                     dataInMap.put(percentile+"OC", eachData.getAverage());
-                } else if(eachData.getAction().getActions().equalsIgnoreCase("App Kill Resume")) {
+                } else if(eachData.getAction().getActions().equalsIgnoreCase("App Force Kill")) {
                     dataInMap.put(percentile+"OCR", eachData.getAverage());
-                } else if(eachData.getAction().getActions().equalsIgnoreCase("App Opening")) {
-                    dataInMap.put(percentile+"AO", eachData.getAverage());
-                } else if(eachData.getAction().getActions().equalsIgnoreCase("Chat Opening")) {
+                } else if(eachData.getAction().getActions().equalsIgnoreCase("Chat Thread Opening")) {
                     dataInMap.put(percentile+"CO", eachData.getAverage());
-                } else if(eachData.getAction().getActions().equalsIgnoreCase("Chat Scroll")) {
+                } else if(eachData.getAction().getActions().equalsIgnoreCase("Chat Thread Scroll")) {
                     dataInMap.put(percentile+"CS", eachData.getAverage());
-                } else if(eachData.getAction().getActions().equalsIgnoreCase("Compose Screen Opening")) {
+                } else if(eachData.getAction().getActions().equalsIgnoreCase("Contact Loading time in Compose screen")) {
                     dataInMap.put(percentile+"COS", eachData.getAverage());
                 }
             }

@@ -53,12 +53,13 @@ public class BuildApkThread implements Runnable {
             String apkVersion = null;
             try {
                 String userName = System.getProperty(messageSource.getMessage("user.name.command", null, null));
-                File folder = new File(messageSource.getMessage("home.path", null, null) + userName + messageSource.getMessage("jenkins.job.apk.path", null, null));
+                //File folder = new File(messageSource.getMessage("home.path", null, null) + userName + messageSource.getMessage("jenkins.job.apk.path", null, null));
+                File folder = new File("/Users/kumarpratyush/Downloads/apks");
                 File[] listOfApk = folder.listFiles();
                 for (int i = 0; i < listOfApk.length; i++) {
                     if (listOfApk[i].isFile()) {
                         String fileName = listOfApk[i].getName();
-                        if (fileName.contains("debug") && !(fileName.contains("customDev"))) {
+                        if (fileName.contains("obfuscated") && !(fileName.contains("customDev"))) {
                             apkVersion = fileName.split("-")[4].replace('_', '.');
                             return apkVersion;
                         }

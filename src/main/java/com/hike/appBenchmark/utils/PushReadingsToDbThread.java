@@ -11,6 +11,11 @@ import com.hike.appBenchmark.models.Actions;
 import com.hike.appBenchmark.models.RunData;
 import com.hike.appBenchmark.models.RunPercentile;
 
+/**
+ *
+ * @author kumarpratyush
+ *
+ */
 public class PushReadingsToDbThread implements Runnable {
 
     private String fileName;
@@ -29,22 +34,20 @@ public class PushReadingsToDbThread implements Runnable {
         //read file and push readings to db
         List<Double> chatOpeningReadings = new ArrayList<Double>();
         List<Double> chatScrollingReadings = new ArrayList<Double>();
-        List<Double> appOpeningReadings = new ArrayList<Double>();
-        List<Double> killAppOpeningReadings = new ArrayList<Double>();
+        List<Double> forceStopAppReadings = new ArrayList<Double>();
         List<Double> composeOpeningReadings = new ArrayList<Double>();
-        List<Double> killAppResumeOpeningReadings = new ArrayList<Double>();
+        List<Double> killAppReadings = new ArrayList<Double>();
 
         int counterOfChatOpening = 0;
         int counterOfChatScrolling = 0;
-        int counterOfAppOpening = 0;
         int counterOfComposeOpening = 0;
         boolean readingCaptured = false;
         boolean chatOpeningFinished = false;
         boolean chatScrollingFinished = false;
-        boolean appOpeningFinished = false;
         boolean composeOpeningFinished = false;
         boolean appCreated = false;
         boolean eachScrollStarted = false;
+        boolean forceKillAppFinished = false;
         double startValue = 0D;
         double endValue = 0D;
         double timeTakenToOpenChat = 0D;
@@ -53,11 +56,11 @@ public class PushReadingsToDbThread implements Runnable {
         double totalTimeForChatScrolling = 0D;
         double totalTimeTakenForComposeOpening = 0D;
         double eachScrollValue = 0D;
-        double totalTimeForAppOpening = 0D;
         int counterOfAppKillOpening = 0;
         double totalTimeTakeForAppCreate = 0D;
-        double totalTimeTakenForAppResume = 0D;
+        double totalTimeTakenForAppCreateAndResume = 0D;
         int counter = 0;
+        int counterOfAppStop = 0;
         double onCreateValue = 0D;
         double onCreateAndResumeValue = 0D;
 
@@ -115,30 +118,9 @@ public class PushReadingsToDbThread implements Runnable {
                     }
                 }
 
-                //readings for app opening benchmark
+                //readings for app force stop benchmark
                 if(chatScrollingFinished) {
-                    if(line.contains("appOpeningBenchmark") && counterOfAppOpening < 5) {
-                        //check if start or end
-                        String[] lineSplit = line.split("=");
-                        if(line.contains("onCreate and onResume")) {
-                            Double appOpeningValue = Double.parseDouble(lineSplit[lineSplit.length - 1].trim());
-                            readingCaptured = true;
-                            if(readingCaptured) {
-                                readingCaptured = false;
-                                totalTimeForAppOpening += appOpeningValue;
-                                appOpeningReadings.add(appOpeningValue);
-                                counterOfAppOpening++;
-                            }
-                        }
-                    } if(counterOfAppOpening >= 5) {
-                        chatScrollingFinished = false;
-                        appOpeningFinished = true;
-                    }
-                }
-
-                //readings for kill app and then opening benchmark
-                if(appOpeningFinished) {
-                    if(line.contains("appOpeningBenchmark") && counterOfAppKillOpening < 5) {
+                    if(line.contains("appOpeningBenchmark") && counterOfAppStop < 5) {
                         //check if start or end
 
                         String[] lineSplit = line.split("=");
@@ -151,15 +133,14 @@ public class PushReadingsToDbThread implements Runnable {
                             appCreated = false;
                         }
                         if(readingCaptured) {
-                            totalTimeTakeForAppCreate += onCreateValue;
-                            totalTimeTakenForAppResume += onCreateAndResumeValue;
+                            totalTimeTakeForAppCreate = onCreateValue + onCreateAndResumeValue;
+                            totalTimeTakenForAppCreateAndResume += totalTimeTakeForAppCreate;
                             readingCaptured = false;
-                            killAppOpeningReadings.add(onCreateValue);
-                            killAppResumeOpeningReadings.add(onCreateAndResumeValue);
-                            counterOfAppKillOpening++;
+                            forceStopAppReadings.add(totalTimeTakeForAppCreate);
+                            counterOfAppStop++;
                         }
-                    } if(counterOfAppKillOpening >=5) {
-                        appOpeningFinished = false;
+                    } if(counterOfAppStop >=5) {
+                        chatScrollingFinished = false;
                         composeOpeningFinished = true;
                         counter = 0;
                     }
@@ -186,9 +167,39 @@ public class PushReadingsToDbThread implements Runnable {
                             counterOfComposeOpening++;
                         }
                     } if(counterOfComposeOpening >= 5) {
-                        chatOpeningFinished = false;
+                        composeOpeningFinished = false;
+                        forceKillAppFinished = true;
                     }
                 }
+
+              //readings for app force kill benchmark
+                if(forceKillAppFinished) {
+                    if(line.contains("appOpeningBenchmark") && counterOfAppKillOpening < 5) {
+                        //check if start or end
+
+                        String[] lineSplit = line.split("=");
+                        if(line.contains("HikeMessengerApp onCreate")) {
+                            onCreateValue = Double.parseDouble(lineSplit[lineSplit.length - 1].trim());
+                            appCreated = true;
+                        } else if(line.contains("onCreate and onResume") && appCreated) {
+                            onCreateAndResumeValue = Double.parseDouble(lineSplit[lineSplit.length - 1].trim());
+                            readingCaptured = true;
+                            appCreated = false;
+                        }
+                        if(readingCaptured) {
+                            totalTimeTakeForAppCreate = onCreateValue + onCreateAndResumeValue;
+                            totalTimeTakenForAppCreateAndResume += totalTimeTakeForAppCreate;
+                            readingCaptured = false;
+                            killAppReadings.add(totalTimeTakeForAppCreate);
+                            counterOfAppKillOpening++;
+                        }
+                    } if(counterOfAppKillOpening >=5) {
+                        composeOpeningFinished = false;
+                        forceKillAppFinished = false;
+                        counter = 0;
+                    }
+                }
+
             }
             br.close();
 
@@ -197,12 +208,10 @@ public class PushReadingsToDbThread implements Runnable {
             chatOpeningReadings.add(totalTimeTakeForChatOpening/5D);
             chatScrollingReadings.add(totalTimeForChatScrolling);
             chatScrollingReadings.add(totalTimeForChatScrolling/5D);
-            appOpeningReadings.add(totalTimeForAppOpening);
-            appOpeningReadings.add(totalTimeForAppOpening/5D);
-            killAppOpeningReadings.add(totalTimeTakeForAppCreate);
-            killAppOpeningReadings.add(totalTimeTakeForAppCreate/5D);
-            killAppResumeOpeningReadings.add(totalTimeTakenForAppResume);
-            killAppResumeOpeningReadings.add(totalTimeTakenForAppResume/5D);
+            forceStopAppReadings.add(totalTimeTakenForAppCreateAndResume);
+            forceStopAppReadings.add(totalTimeTakenForAppCreateAndResume/5D);
+            killAppReadings.add(totalTimeTakenForAppCreateAndResume);
+            killAppReadings.add(totalTimeTakenForAppCreateAndResume/5D);
             composeOpeningReadings.add(totalTimeTakenForComposeOpening);
             composeOpeningReadings.add(totalTimeTakenForComposeOpening/5D);
 
@@ -212,18 +221,16 @@ public class PushReadingsToDbThread implements Runnable {
                 RunData runDataObject = new RunData();
                 runDataObject.setRunPercentile(runPercentile);
                 runDataObject.setAction(eachAction);
-                if(eachAction.getActions().equalsIgnoreCase("Chat Opening")) {
+                if(eachAction.getActions().equalsIgnoreCase("Chat Thread Opening")) {
                     prepareRunDataObject(runDataObject, chatOpeningReadings);
-                } else if(eachAction.getActions().equalsIgnoreCase("Chat Scroll")) {
+                } else if(eachAction.getActions().equalsIgnoreCase("Chat Thread Scroll")) {
                     prepareRunDataObject(runDataObject, chatScrollingReadings);
-                } else if(eachAction.getActions().equalsIgnoreCase("App Opening")) {
-                    prepareRunDataObject(runDataObject, appOpeningReadings);
-                } else if(eachAction.getActions().equalsIgnoreCase("App Kill and Reopen")) {
-                    prepareRunDataObject(runDataObject, killAppOpeningReadings);
-                } else if(eachAction.getActions().equalsIgnoreCase("Compose Screen Opening")) {
+                } else if(eachAction.getActions().equalsIgnoreCase("App Force Stop")) {
+                    prepareRunDataObject(runDataObject, forceStopAppReadings);
+                } else if(eachAction.getActions().equalsIgnoreCase("Contact Loading time in Compose screen")) {
                     prepareRunDataObject(runDataObject, composeOpeningReadings);
-                } else if(eachAction.getActions().equalsIgnoreCase("App Kill Resume")) {
-                    prepareRunDataObject(runDataObject, killAppResumeOpeningReadings);
+                } else if(eachAction.getActions().equalsIgnoreCase("App Force Kill")) {
+                    prepareRunDataObject(runDataObject, killAppReadings);
                 }
                 benchmarkDao.insertIntoRunData(runDataObject);
             }

@@ -28,7 +28,6 @@ import com.hike.appBenchmark.utils.ShellUtil;
 public class BenchmarkProcessInDeviceDistributor implements Runnable {
 
     private Percentile percentile;
-    private BenchmarkProcessDistributeUtils benchmarkProcessUtils = new BenchmarkProcessDistributeUtils();
     private MessageSource messageSource;
     private int runId;
     private BenchmarkDao benchmarkDao;
@@ -54,10 +53,11 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
         benchmarkDao.insertIntoRunPercentile(runPercentileObject);
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        BenchmarkLogcatThread logcatThread = new BenchmarkLogcatThread(fileNameForLogcat);
+        BenchmarkLogcatThread logcatThread = new BenchmarkLogcatThread(fileNameForLogcat, messageSource);
         executorService.submit(logcatThread);
 
         //  benchmarkProcessUtils.setProperties(String.valueOf(percentile.getPercentile()));
+        BenchmarkProcessDistributeUtils benchmarkProcessUtils = new BenchmarkProcessDistributeUtils(messageSource);
         benchmarkProcessUtils.pushBackupFile(String.valueOf(percentile.getPercentile()), runId, percentile.getMsisdn());
 
 
@@ -67,7 +67,7 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
             List<String> commandParams =  new ArrayList<String>();
             commandParams.add(messageSource.getMessage("adb.command", null, null));
             commandParams.add(messageSource.getMessage("adb.push", null, null));
-            String pathOfSrcJar = "/Users/kumarpratyush/Documents/marsWorkspace/BenchmarkDevice/bin/src.jar";
+            String pathOfSrcJar = "/Users/" + userName + "/Documents/workspace/BenchmarkDevice/bin/src.jar";
             commandParams.add(pathOfSrcJar);
             commandParams.add( messageSource.getMessage("data.local.tmp", null, null));
             String finalCommand = "";
@@ -97,6 +97,7 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
             IOUtils.convertBRtoString(ShellUtil.executeShellCommand(commandParams.toArray(new String[commandParams.size()])));
 
         } catch(Exception e) {
+            System.out.println("Test execution failed. Please run again after fixing error!");
             e.printStackTrace();
         }
         System.out.println("came here");
@@ -104,6 +105,13 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
         System.out.println(logcatThread.testComplete);
 
         //spawn a thread to write readings to database
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        System.out.println("spawn for db push*******************************************************************************************");
         ExecutorService readingsToDBService = Executors.newSingleThreadExecutor();
         PushReadingsToDbThread readingsToDb = new PushReadingsToDbThread(fileNameForLogcat, benchmarkDao, runPercentileObject);
         readingsToDBService.execute(readingsToDb);
@@ -121,9 +129,11 @@ class BenchmarkLogcatThread extends Thread {
 
     public boolean testComplete = false;
     private String fileName;
+    private MessageSource messageSource;
 
-    public BenchmarkLogcatThread(String fileName) {
+    public BenchmarkLogcatThread(String fileName, MessageSource messageSource) {
         this.fileName = fileName;
+        this.messageSource = messageSource;
     }
 
     public void setFlag() {
@@ -141,7 +151,9 @@ class BenchmarkLogcatThread extends Thread {
                 logFile.delete();
             }
 
-            Process process = Runtime.getRuntime().exec("/Users/kumarpratyush/Documents/Setup/adt-bundle-mac-x86_64-20130911/sdk/platform-tools/adb logcat -s appOpeningBenchmark:* chatOpeningBenchmark:* chatScrollMsgDBBenchmark:* composeOpeningBenchmark:*");
+            String userName = System.getProperty(messageSource.getMessage("user.name.command", null, null));
+
+            Process process = Runtime.getRuntime().exec("/Users/" + userName + "/Documents/Setup/adt-bundle-mac-x86_64-20130911/sdk/platform-tools/adb logcat -s appOpeningBenchmark:* chatOpeningBenchmark:* chatScrollMsgDBBenchmark:* composeOpeningBenchmark:*");
             BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(process.getInputStream()));
 
