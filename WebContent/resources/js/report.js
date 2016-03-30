@@ -1,3 +1,4 @@
+var action;
 $(document).ready(function() {
     google.charts.load('current', {
                     'packages': ['corechart']
@@ -13,7 +14,8 @@ $(document).ready(function() {
 
         $('#chart_div').empty();
 
-        var actionSelected = $('#action').val();
+        action = $('#action').val();
+
         var apkElement = document.getElementById("apk");
         var apksSelected = "";
         for (var i = 0; i < apkElement.options.length; i++) {
@@ -24,7 +26,7 @@ $(document).ready(function() {
         }
 
         var json = {
-            "action": actionSelected,
+            "action": action,
             "apk": apksSelected
         }
 
@@ -48,7 +50,7 @@ $(document).ready(function() {
                     var data = new google.visualization.DataTable(successData);
 
                     var options = {
-                        title: 'Benchmark data for Chat Opening',
+                        title: action,
                         vAxis: {
                             title: 'Time (in ms)'
                         },

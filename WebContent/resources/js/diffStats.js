@@ -55,8 +55,8 @@ $('#diffStatsForm').submit(function(event) {
             $('#99OCR').html(successData["99OCR"]);
 
             $('td').each(function(i, n) {
-                if ($(n).text().match("^\\+")) $(n).css('color', 'green');
-                else if ($(n).text().match("^-")) $(n).css('color', 'red');
+                if ($(n).text().match("^\\+")) $(n).css('color', 'red');
+                else if ($(n).text().match("^-")) $(n).css('color', 'green');
             });
 
         },

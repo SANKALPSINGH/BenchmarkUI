@@ -52,7 +52,7 @@
                             <th>99th</th>
                         </tr>
                         <tr>
-                            <th>Chat Opening</td>
+                            <th>Chat Thread Opening</td>
                             <td id="50CO"></td>
                             <td id="80CO"></td>
                             <td id="95CO"></td>
@@ -60,7 +60,7 @@
                         </tr>
 
                         <tr>
-                            <th>Chat Scrolling</td>
+                            <th>Chat Thread Scroll</td>
                             <td id="50CS"></td>
                             <td id="80CS"></td>
                             <td id="95CS"></td>
@@ -68,15 +68,7 @@
                         </tr>
 
                         <tr>
-                            <th>App Opening</td>
-                            <td id="50AO"></td>
-                            <td id="80AO"></td>
-                            <td id="95AO"></td>
-                            <td id="99AO"></td>
-                        </tr>
-
-                        <tr>
-                            <th>App 'onCreate' call</td>
+                            <th>App Force Stop</td>
                             <td id="50OC"></td>
                             <td id="80OC"></td>
                             <td id="95OC"></td>
@@ -84,7 +76,7 @@
                         </tr>
 
                         <tr>
-                            <th>App 'onCreate and onResume' call</td>
+                            <th>App Force Kill</td>
                             <td id="50OCR"></td>
                             <td id="80OCR"></td>
                             <td id="95OCR"></td>
@@ -92,7 +84,7 @@
                         </tr>
 
                         <tr>
-                            <th>Compose Screen</td>
+                            <th>Contact Loading time in Compose screen</td>
                             <td id="50COS"></td>
                             <td id="80COS"></td>
                             <td id="95COS"></td>
