@@ -86,3 +86,12 @@ hr {
    border-top: 1px solid #aaaaaa;
    border-bottom: 1px solid #ffffff;
 }
+
+.white-popup {
+  position: relative;
+  background: #FFF;
+  padding: 20px;
+  width: auto;
+  max-width: 500px;
+  margin: 20px auto;
+}

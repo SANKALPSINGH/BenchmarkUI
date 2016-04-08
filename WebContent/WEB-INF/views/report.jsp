@@ -12,12 +12,16 @@
                 <spring:url value="/resources/js/bootstrap-multiselect.js" var="multiselectJS" />
                 <spring:url value="/resources/js/report.js" var="reportJS" />
                 <spring:url value="/resources/css/bootstrap-multiselect.css" var="multiselectCSS" />
+                <spring:url value="/resources/css/magnific-popup.css" var="magneficPopupCSS" />
+                <spring:url value="/resources/js/jquery.magnific-popup.js" var="magenficpopupJS" />
 
                 <link href="${mainCSS}" rel="stylesheet" />
                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                 <script src="${multiselectJS}"></script>
                 <script src="${reportJS}"></script>
                 <link href="${multiselectCSS}" rel="stylesheet" />
+                <link href="${magneficPopupCSS}" rel="stylesheet" />
+                <script src="${magenficpopupJS}"></script>
                 <script type="text/javascript">
                     $(document).ready(function() {
                         /* $(this).tooltip(); */
@@ -57,9 +61,86 @@
                                 </div>
                             </div>
                         </form>
+                         <div class="flexparent">
+                            <div> The base apk taken for comparison is : <b>4.0.8.81</b></div>
+                        </div>
                     </div>
                    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+                   <div class="flexaparent">
+                    <div id="details" class="hideElement"><a class="open-popup-link">Click here for steps performed to take readings</a></div>
+                </div>
                </section>
+
+               <div id="app-force-stop" class="white-popup mfp-hide">
+                    <ol>
+                        <li>Import contacts.vcf file to the native android address book. Address Book for the respective percentile user has been created as per the Data shared by the Data Team.</li>
+                        <li>Install Hike obfuscated build.</li>
+                        <li>Signup with the required percentile user.</li>
+                        <li>Restore the backup created for the percentile user as per the Data shared by the Data Team.</li>
+                        <li>Force Stop the app using </b>"adb shell am force-stop com.bsb.hike"</b>.</li>
+                        <li>Launch app and calculate the Launch time.</li>
+                        <li>Repeat Step #5 and #6 for next four iterations.</li>
+                        <li>Calculate the average of the above five readings.</li>
+                    </ul>
+                </div>
+
+                <div id="app-force-kill" class="white-popup mfp-hide">
+                    <ol>
+                        <li>Import contacts.vcf file to the native android address book. Address Book for the respective percentile user has been created as per the Data shared by the Data Team.</li>
+                        <li>Install Hike obfuscated build.</li>
+                        <li>Signup with the required percentile user.</li>
+                        <li>Restore the backup created for the percentile user as per the Data shared by the Data Team.</li>
+                        <li>Force Kill the app using UIAutomator (swiping the app off from Recents).</li>
+                        <li>Launch app and calculate the Launch time.</li>
+                        <li>Repeat Step #5 and #6 for next four iterations.</li>
+                        <li>Calculate the average of the above five readings.</li>
+                    </ul>
+                </div>
+
+                <div id="chat-thread-opening" class="white-popup mfp-hide">
+                    <ol>
+                        <li>Import contacts.vcf file to the native android address book. Address Book for the respective percentile user has been created as per the Data shared by the Data Team.</li>
+                        <li>Install Hike obfuscated build.</li>
+                        <li>Signup with the required percentile user.</li>
+                        <li>Restore the backup created for the percentile user as per the Data shared by the Data Team.</li>
+                        <li>Launch the app.</li>
+                        <li>Open the first chat thread.</li>
+                        <li>Calculate the difference of start and end time of above value.</li>
+                        <li>Repeat Step #6 and #7 for next four iterations.</li>
+                        <li>Calculate the average of the above five readings.</li>
+                    </ul>
+                </div>
+
+                <div id="chat-thread-scroll" class="white-popup mfp-hide">
+                    <ol>
+                        <li>Import contacts.vcf file to the native android address book. Address Book for the respective percentile user has been created as per the Data shared by the Data Team.</li>
+                        <li>Install Hike obfuscated build.</li>
+                        <li>Signup with the required percentile user.</li>
+                        <li>Restore the backup created for the percentile user as per the Data shared by the Data Team.</li>
+                        <li>Launch the app.</li>
+                        <li>Open the first chat thread.</li>
+                        <li>Scroll till the top end of the messages.</li>
+                        <li>Calculate the sum of all the DB query time.</li>
+                        <li>Repeat Step #6 and #8 for next four iterations.</li>
+                        <li>Calculate the average of the above five readings.</li>
+                    </ul>
+                </div>
+
+                <div id="compose-screen" class="white-popup mfp-hide">
+                    <ol>
+                        <li>Import contacts.vcf file to the native android address book. Address Book for the respective percentile user has been created as per the Data shared by the Data Team.</li>
+                        <li>Install Hike obfuscated build.</li>
+                        <li>Signup with the required percentile user.</li>
+                        <li>Restore the backup created for the percentile user as per the Data shared by the Data Team.</li>
+                        <li>Launch the app.</li>
+                        <li>Open the Compose screen.</li>
+                        <li>Calculate the difference of start and end time of above value.</li>
+                        <li>Press Device Back button twice to kill the app.</li>
+                        <li>Repeat Step #5 and #8 for next four iterations.</li>
+                        <li>Calculate the average of the above five readings.</li>
+                    </ul>
+                </div>
+
             </body>
 
             </html>

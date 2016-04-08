@@ -1,5 +1,11 @@
 var action;
 $(document).ready(function() {
+
+    $('.open-popup-link').magnificPopup({
+        type:'inline',
+        midClick: true 
+    });
+
     google.charts.load('current', {
                     'packages': ['corechart']
                 });
@@ -12,9 +18,25 @@ $(document).ready(function() {
 
     $('#getDataForGraphForm').submit(function(event) {
 
+        //unhide the details link and set apt link href
+        var detailsLink = document.getElementById("details");
+        detailsLink.className = "unhideElement";
+
         $('#chart_div').empty();
 
         action = $('#action').val();
+        var detailsLinkAnchor = document.getElementsByClassName("open-popup-link")[0];
+        if("App Force Kill".localeCompare(action) == 0) {
+            detailsLinkAnchor.setAttribute("href", "#app-force-kill");
+        } else if("App Force Stop".localeCompare(action) == 0) {
+            detailsLinkAnchor.setAttribute('href', "#app-force-stop");
+        } else if("Chat Thread Opening".localeCompare(action) == 0) {
+            detailsLinkAnchor.setAttribute('href', "#chat-thread-opening");
+        } else if("Chat Thread Scroll".localeCompare(action) == 0) {
+            detailsLinkAnchor.setAttribute('href', "#chat-thread-scroll");
+        } else if("Contact Loading time in Compose screen".localeCompare(action) == 0) {
+            detailsLinkAnchor.setAttribute('href', "#compose-screen");
+        }
 
         var apkElement = document.getElementById("apk");
         var apksSelected = "";
@@ -55,7 +77,7 @@ $(document).ready(function() {
                             title: 'Time (in ms)'
                         },
                         hAxis: {
-                            title: 'Percentile'
+                            title: 'Percentile User'
                         },
                         seriesType: 'bars'
                     };
