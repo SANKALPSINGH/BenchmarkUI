@@ -33,7 +33,7 @@ public class BuildApkThread implements Runnable {
         //TODO CHANGE TO FALSE
         boolean apkSuccess = true;
 
-        //apkSuccess = jenkinsService.getLatestapk(apkBranch, runId);
+        apkSuccess = jenkinsService.getLatestapk(apkBranch, runId);
         jenkinsService.moveApk(runId);
         if (apkSuccess) {
             setApkVersion(runId);
@@ -53,8 +53,8 @@ public class BuildApkThread implements Runnable {
             String apkVersion = null;
             try {
                 String userName = System.getProperty(messageSource.getMessage("user.name.command", null, null));
-                //File folder = new File(messageSource.getMessage("home.path", null, null) + userName + messageSource.getMessage("jenkins.job.apk.path", null, null));
-                File folder = new File("/Users/kumarpratyush/Downloads/apks");
+                File folder = new File(messageSource.getMessage("home.path", null, null) + userName + messageSource.getMessage("jenkins.job.apk.path", null, null));
+                //File folder = new File("/Users/kumarpratyush/Downloads/apks");
                 File[] listOfApk = folder.listFiles();
                 for (int i = 0; i < listOfApk.length; i++) {
                     if (listOfApk[i].isFile()) {

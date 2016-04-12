@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 
 import org.springframework.context.MessageSource;
 
+import com.hike.appBenchmark.base.ExecuteShell;
 import com.hike.appBenchmark.benchmarkProcess.BenchmarkDao;
 import com.hike.appBenchmark.models.Percentile;
 import com.hike.appBenchmark.models.Run;
@@ -52,6 +53,9 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
         RunPercentile runPercentileObject = new RunPercentile(runObject, percentile);
         benchmarkDao.insertIntoRunPercentile(runPercentileObject);
 
+        //clear previous logcat file
+        ExecuteShell shell = new ExecuteShell();
+        shell.executeCommand("adb logcat -c");
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         BenchmarkLogcatThread logcatThread = new BenchmarkLogcatThread(fileNameForLogcat, messageSource);
         executorService.submit(logcatThread);
