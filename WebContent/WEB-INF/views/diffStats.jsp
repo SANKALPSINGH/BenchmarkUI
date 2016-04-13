@@ -9,9 +9,13 @@
                 <jsp:include page="header.jsp" />
                 <spring:url value="/resources/css/main.css" var="mainCSS" />
                 <spring:url value="/resources/js/diffStats.js" var="diffStatsJS" />
+                <spring:url value="/resources/css/magnific-popup.css" var="magneficPopupCSS" />
+                <spring:url value="/resources/js/jquery.magnific-popup.js" var="magenficpopupJS" />
 
                 <link href="${mainCSS}" rel="stylesheet" />
                 <script src="${diffStatsJS}"></script>
+                <link href="${magneficPopupCSS}" rel="stylesheet" />
+                <script src="${magenficpopupJS}"></script>
                 <script type="text/javascript">
                     $(document).ready(function() {
                         /* $(this).tooltip(); */
@@ -41,6 +45,11 @@
                                 </div>
                             </div>
                         </form>
+                        <div class="flexparent">
+                            <div> The base apk taken for comparison is : <b>4.0.8.81</b></div>
+                        </div>
+
+                        <hr>
                         <div class="flexparent">
                         <div id="diffData">
                             <table border="1" class="table table-hover" style="display:hidden" id="diffTable">
@@ -91,7 +100,16 @@
                             <td id="99COS"></td>
                         </tr>
                     </table>
-                        </div>
+                </div>
+            </div>
+                <div class="flexaparent">
+                    <div><a href="#color-popup" class="open-popup-link">Click here for details behind the numbers and the color coding</a></div>
+                </div>
+
+                <div id="color-popup" class="white-popup mfp-hide">
+                    The selected apk is compared with the base apk, <i>i.e.</i> <b>4.0.8.81</b>. The comparison is done for each percentile user across all actions. The difference percentage is calculated using the formula : ((Selected_version_value - base_version_value) / base_version_value) * 100 <br /> The <b>positive</b> value indicates an <b>increase</b> in reading and hence the color coding for the same is red (as there is an increase in performing the activity). Similarly, the <b>negative</b> value indicates a <b>decrease</b> in reading and hence the color coding for the same is green.
+                </div>
+
 
             </body>
 

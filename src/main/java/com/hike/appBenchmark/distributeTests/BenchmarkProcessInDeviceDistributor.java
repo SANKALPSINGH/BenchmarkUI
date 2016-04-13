@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 
 import org.springframework.context.MessageSource;
 
+import com.hike.appBenchmark.base.ExecuteShell;
 import com.hike.appBenchmark.benchmarkProcess.BenchmarkDao;
 import com.hike.appBenchmark.models.Percentile;
 import com.hike.appBenchmark.models.Run;
@@ -52,6 +53,9 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
         RunPercentile runPercentileObject = new RunPercentile(runObject, percentile);
         benchmarkDao.insertIntoRunPercentile(runPercentileObject);
 
+        //clear previous logcat file
+        ExecuteShell shell = new ExecuteShell();
+        shell.executeCommand("adb logcat -c");
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         BenchmarkLogcatThread logcatThread = new BenchmarkLogcatThread(fileNameForLogcat, messageSource);
         executorService.submit(logcatThread);
@@ -65,16 +69,17 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
             //start process for ui run
             //push test code
             List<String> commandParams =  new ArrayList<String>();
-            commandParams.add(messageSource.getMessage("adb.command", null, null));
+            String pathOfSrcJar = "/Users/" + userName + "/Documents/workspace/BenchmarkDevice/bin/";
+            /*commandParams.add(messageSource.getMessage("adb.command", null, null));
             commandParams.add(messageSource.getMessage("adb.push", null, null));
-            String pathOfSrcJar = "/Users/" + userName + "/Documents/workspace/BenchmarkDevice/bin/src.jar";
             commandParams.add(pathOfSrcJar);
             commandParams.add( messageSource.getMessage("data.local.tmp", null, null));
             String finalCommand = "";
             for(String eachCommandPart : commandParams) {
                 finalCommand = finalCommand.concat(eachCommandPart).concat(" ");
-            }
-            ShellUtil.executeCommand(finalCommand);
+            }*/
+            benchmarkProcessUtils.pushFile(pathOfSrcJar, messageSource.getMessage("data.local.tmp", null, null), "src.jar");
+            //ShellUtil.executeCommand(finalCommand);
 
             //set params to run test in device
             commandParams.clear();
