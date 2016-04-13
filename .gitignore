@@ -6,6 +6,6 @@
 .settings/*
 .settings
 shell.sh
-
-
-
+script.sh
+runScript.sh
+/.DS_Store
