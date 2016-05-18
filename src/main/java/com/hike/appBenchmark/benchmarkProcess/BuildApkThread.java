@@ -34,7 +34,7 @@ public class BuildApkThread implements Runnable {
         boolean apkSuccess = true;
 
         apkSuccess = jenkinsService.getLatestapk(apkBranch, runId);
-        jenkinsService.moveApk(runId);
+        //jenkinsService.moveApk(runId);
         if (apkSuccess) {
             setApkVersion(runId);
 
@@ -45,6 +45,7 @@ public class BuildApkThread implements Runnable {
                 BenchmarkProcessInDeviceDistributor processInDevice = new BenchmarkProcessInDeviceDistributor(eachPercentile, messageSource, runId, benchmarkDao);
                 runBenchmarkExecutorService.execute(processInDevice);
             }
+            runBenchmarkExecutorService.shutdown();
         }//TODO handle failure part here
     }
 

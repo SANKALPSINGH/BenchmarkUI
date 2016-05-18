@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hike.appBenchmark.benchmarkProcess.BuildApkThread;
 import com.hike.appBenchmark.models.RunData;
 import com.hike.appBenchmark.reports.ReportDao;
 import com.hike.appBenchmark.reports.ReportService;
@@ -39,11 +43,26 @@ public class DiffStatsContoller {
     @Autowired
     private DiffDao diffDao;
 
+    @Autowired
+    private MessageSource messageSource;
+
     @RequestMapping(value = "")
     public String getApksForDropdown(Model model) {
 
         List<String> allAvailableApks = reportService.getAllAvailableApks();
         model.addAttribute("apks", allAvailableApks);
+        return "diffStats";
+    }
+
+    @RequestMapping(value="/test")
+    public String runTest(Model model) {
+
+
+        ExecutorService buildApkExecutorService = Executors.newFixedThreadPool(1);
+        Runnable TestingProcessThread = new TestingProcessThread(messageSource);
+        buildApkExecutorService.execute(TestingProcessThread);
+        buildApkExecutorService.shutdown();
+
         return "diffStats";
     }
 
