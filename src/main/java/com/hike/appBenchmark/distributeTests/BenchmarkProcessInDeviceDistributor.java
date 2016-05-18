@@ -59,6 +59,7 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         BenchmarkLogcatThread logcatThread = new BenchmarkLogcatThread(fileNameForLogcat, messageSource);
         executorService.submit(logcatThread);
+        executorService.shutdown();
 
         //  benchmarkProcessUtils.setProperties(String.valueOf(percentile.getPercentile()));
         BenchmarkProcessDistributeUtils benchmarkProcessUtils = new BenchmarkProcessDistributeUtils(messageSource);
@@ -120,6 +121,7 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
         ExecutorService readingsToDBService = Executors.newSingleThreadExecutor();
         PushReadingsToDbThread readingsToDb = new PushReadingsToDbThread(fileNameForLogcat, benchmarkDao, runPercentileObject);
         readingsToDBService.execute(readingsToDb);
+        readingsToDBService.shutdown();
     }
 
     private String getProperty(String code) {

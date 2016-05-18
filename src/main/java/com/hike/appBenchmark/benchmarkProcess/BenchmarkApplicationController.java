@@ -76,6 +76,7 @@ public class BenchmarkApplicationController {
 
             Runnable buildApkThread = new BuildApkThread(apkBranch, runId, jenkinsService, messageSource, benchmarkDao);
             buildApkExecutorService.execute(buildApkThread);
+            buildApkExecutorService.shutdown();
 
         } catch(Exception e) {
             System.out.println("Error came while running benchmark process");
