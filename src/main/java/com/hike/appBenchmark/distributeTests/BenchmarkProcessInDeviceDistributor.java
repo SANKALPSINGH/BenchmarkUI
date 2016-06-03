@@ -70,7 +70,7 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
             //start process for ui run
             //push test code
             List<String> commandParams =  new ArrayList<String>();
-            String pathOfSrcJar = "/Users/" + userName + "/Documents/workspace/BenchmarkDevice/bin/";
+            String pathOfSrcJar = "/Users/" + userName + "/Documents/workspace/UIAutomation/bin/";
             /*commandParams.add(messageSource.getMessage("adb.command", null, null));
             commandParams.add(messageSource.getMessage("adb.push", null, null));
             commandParams.add(pathOfSrcJar);
@@ -90,7 +90,7 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
             commandParams.add(getProperty("run.test.command"));
             commandParams.add(getProperty("src.jar.command"));
             commandParams.add(getProperty("bash.flag.c"));
-            commandParams.add("com.hike.appBenchmark.distributeTests.BenchmarkProcessInDevice");
+            commandParams.add("com.bsb.hike.tests.benchmark.AppBenchmarkTestCase");
             commandParams.add("-e");
             commandParams.add("percentile");
             commandParams.add(String.valueOf(percentile.getPercentile()));

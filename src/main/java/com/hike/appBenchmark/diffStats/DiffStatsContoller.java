@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hike.appBenchmark.benchmarkProcess.BuildApkThread;
 import com.hike.appBenchmark.models.RunData;
 import com.hike.appBenchmark.reports.ReportDao;
 import com.hike.appBenchmark.reports.ReportService;
@@ -54,7 +51,7 @@ public class DiffStatsContoller {
         return "diffStats";
     }
 
-    @RequestMapping(value="/test")
+    /*@RequestMapping(value="/test")
     public String runTest(Model model) {
 
 
@@ -64,7 +61,7 @@ public class DiffStatsContoller {
         buildApkExecutorService.shutdown();
 
         return "diffStats";
-    }
+    }*/
 
     @SuppressWarnings({"unchecked"})
     @RequestMapping(value = "/getDiffStats", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,
