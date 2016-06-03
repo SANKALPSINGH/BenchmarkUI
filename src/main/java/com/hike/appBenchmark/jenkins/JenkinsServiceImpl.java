@@ -143,8 +143,8 @@ public class JenkinsServiceImpl implements JenkinsService {
 		try {
 			GenerateFileStructureForRun fileStructureObject = new GenerateFileStructureForRun(messageSource);
 			fileStructureObject.createRunFolder(String.valueOf(runID));
-			//File folder=  new File(getProperty("home.path") + userName + getProperty("jenkins.job.apk.path"));
-			File folder = new File("/Users/" + userName + "/Desktop/apk");
+			File folder=  new File(getProperty("home.path") + userName + getProperty("jenkins.job.apk.path"));
+			//File folder = new File("/Users/" + userName + "/Desktop/apk");
 			File[] listOfApk = folder.listFiles();
 
 			for (int i = 0; i < listOfApk.length; i++) {
