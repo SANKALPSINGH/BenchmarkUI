@@ -69,7 +69,7 @@ public class ReportController {
             }
             //add base apk if not added already
             if(!(apksList.contains(baseApk))) {
-                apksList.add(baseApk);
+                apksList.add(0, baseApk);
             }
 
             //prepare default structure of the response packet
