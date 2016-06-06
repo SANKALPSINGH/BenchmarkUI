@@ -224,14 +224,19 @@ public class PushReadingsToDbThread implements Runnable {
                 runDataObject.setRunPercentile(runPercentile);
                 runDataObject.setAction(eachAction);
                 if(eachAction.getActions().equalsIgnoreCase("Chat Thread Opening")) {
+                    System.out.println("Printing data for Chat Thread Opening");
                     prepareRunDataObject(runDataObject, chatOpeningReadings);
                 } else if(eachAction.getActions().equalsIgnoreCase("Chat Thread Scroll")) {
+                    System.out.println("Printing data for Chat Thread Scroll");
                     prepareRunDataObject(runDataObject, chatScrollingReadings);
                 } else if(eachAction.getActions().equalsIgnoreCase("App Force Stop")) {
+                    System.out.println("Printing data for Force Stop App");
                     prepareRunDataObject(runDataObject, forceStopAppReadings);
                 } else if(eachAction.getActions().equalsIgnoreCase("Contact Loading time in Compose screen")) {
+                    System.out.println("Printing data for Compose Opening");
                     prepareRunDataObject(runDataObject, composeOpeningReadings);
                 } else if(eachAction.getActions().equalsIgnoreCase("App Force Kill")) {
+                    System.out.println("Printing data for App Force Kill");
                     prepareRunDataObject(runDataObject, killAppReadings);
                 }
                 benchmarkDao.insertIntoRunData(runDataObject);
@@ -243,6 +248,13 @@ public class PushReadingsToDbThread implements Runnable {
     }
 
     private void prepareRunDataObject(RunData runDataObject, List<Double> data) {
+        System.out.println("Reading 1 : " + data.get(0));
+        System.out.println("Reading 2 : " + data.get(1));
+        System.out.println("Reading 3 : " + data.get(2));
+        System.out.println("Reading 4 : " + data.get(3));
+        System.out.println("Reading 5 : " + data.get(4));
+        System.out.println("Reading Total : " + data.get(5));
+        System.out.println("Reading Average : " + data.get(6));
         runDataObject.setReading1(data.get(0));
         runDataObject.setReading2(data.get(1));
         runDataObject.setReading3(data.get(2));
