@@ -75,7 +75,7 @@ public class PushReadingsToDbThread implements Runnable {
                     if(line.contains("start")) {
                         startValue = Double.parseDouble(lineSplit[lineSplit.length - 1].trim());
                         counter++;
-                    } else if(line.contains(": end") && counter != 0) {
+                    } else if(line.contains(" end") && counter != 0) {
                         endValue = Double.parseDouble(lineSplit[lineSplit.length - 1].trim());
                         readingCaptured = true;
                         counter = 0;
