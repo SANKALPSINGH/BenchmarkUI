@@ -70,7 +70,7 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
             //start process for ui run
             //push test code
             List<String> commandParams =  new ArrayList<String>();
-            String pathOfSrcJar = "/Users/" + userName + "/Documents/workspace/UIAutomation/bin/";
+            String pathOfSrcJar = "/Users/" + userName + "/Documents/marsWorkspace/UIAutomation/bin/";
             /*commandParams.add(messageSource.getMessage("adb.command", null, null));
             commandParams.add(messageSource.getMessage("adb.push", null, null));
             commandParams.add(pathOfSrcJar);
@@ -112,7 +112,7 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
 
         //spawn a thread to write readings to database
         try {
-            Thread.sleep(20000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -59,6 +59,7 @@ public class PushReadingsToDbThread implements Runnable {
         int counterOfAppKillOpening = 0;
         double totalTimeTakeForAppCreate = 0D;
         double totalTimeTakenForAppCreateAndResume = 0D;
+        double totalTimeTakenForAppCreateAndResumeAppStop = 0D;
         int counter = 0;
         int counterOfAppStop = 0;
         double onCreateValue = 0D;
@@ -135,7 +136,7 @@ public class PushReadingsToDbThread implements Runnable {
                         }
                         if(readingCaptured) {
                             totalTimeTakeForAppCreate = onCreateValue + onCreateAndResumeValue;
-                            totalTimeTakenForAppCreateAndResume += totalTimeTakeForAppCreate;
+                            totalTimeTakenForAppCreateAndResumeAppStop += totalTimeTakeForAppCreate;
                             readingCaptured = false;
                             forceStopAppReadings.add(totalTimeTakeForAppCreate);
                             counterOfAppStop++;
@@ -210,8 +211,8 @@ public class PushReadingsToDbThread implements Runnable {
             chatOpeningReadings.add(totalTimeTakeForChatOpening/5D);
             chatScrollingReadings.add(totalTimeForChatScrolling);
             chatScrollingReadings.add(totalTimeForChatScrolling/5D);
-            forceStopAppReadings.add(totalTimeTakenForAppCreateAndResume);
-            forceStopAppReadings.add(totalTimeTakenForAppCreateAndResume/5D);
+            forceStopAppReadings.add(totalTimeTakenForAppCreateAndResumeAppStop);
+            forceStopAppReadings.add(totalTimeTakenForAppCreateAndResumeAppStop/5D);
             killAppReadings.add(totalTimeTakenForAppCreateAndResume);
             killAppReadings.add(totalTimeTakenForAppCreateAndResume/5D);
             composeOpeningReadings.add(totalTimeTakenForComposeOpening);

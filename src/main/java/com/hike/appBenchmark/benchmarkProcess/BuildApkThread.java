@@ -33,8 +33,8 @@ public class BuildApkThread implements Runnable {
         //TODO CHANGE TO FALSE
         boolean apkSuccess = true;
 
-        apkSuccess = jenkinsService.getLatestapk(apkBranch, runId);
-        //jenkinsService.moveApk(runId);
+        //apkSuccess = jenkinsService.getLatestapk(apkBranch, runId);
+        jenkinsService.moveApk(runId);
         if (apkSuccess) {
             setApkVersion(runId);
 
@@ -42,44 +42,46 @@ public class BuildApkThread implements Runnable {
             //get list of percentiles available
             List<Percentile> percentileObjects = benchmarkDao.getAllPercentiles();
             for(Percentile eachPercentile : percentileObjects) {
-                BenchmarkProcessInDeviceDistributor processInDevice = new BenchmarkProcessInDeviceDistributor(eachPercentile, messageSource, runId, benchmarkDao);
-                runBenchmarkExecutorService.execute(processInDevice);
+                if(eachPercentile.getPercentile() == 50) {
+                    BenchmarkProcessInDeviceDistributor processInDevice = new BenchmarkProcessInDeviceDistributor(eachPercentile, messageSource, runId, benchmarkDao);
+                    runBenchmarkExecutorService.execute(processInDevice);
+                }
             }
             runBenchmarkExecutorService.shutdown();
         }//TODO handle failure part here
     }
 
-        public String fetchApkVersion() {
+    public String fetchApkVersion() {
 
-            String apkVersion = null;
-            try {
-                String userName = System.getProperty(messageSource.getMessage("user.name.command", null, null));
-                File folder = new File(messageSource.getMessage("home.path", null, null) + userName + messageSource.getMessage("jenkins.job.apk.path", null, null));
-                //File folder = new File("/Users/kumarpratyush/Downloads/apks");
-                File[] listOfApk = folder.listFiles();
-                for (int i = 0; i < listOfApk.length; i++) {
-                    if (listOfApk[i].isFile()) {
-                        String fileName = listOfApk[i].getName();
-                        if (fileName.contains("obfuscated") && !(fileName.contains("customDev"))) {
-                            apkVersion = fileName.split("-")[4].replace('_', '.');
-                            return apkVersion;
-                        }
+        String apkVersion = null;
+        try {
+            String userName = System.getProperty(messageSource.getMessage("user.name.command", null, null));
+            File folder = new File(messageSource.getMessage("home.path", null, null) + userName + messageSource.getMessage("jenkins.job.apk.path", null, null));
+            //File folder = new File("/Users/kumarpratyush/Downloads/apks");
+            File[] listOfApk = folder.listFiles();
+            for (int i = 0; i < listOfApk.length; i++) {
+                if (listOfApk[i].isFile()) {
+                    String fileName = listOfApk[i].getName();
+                    if (fileName.contains("obfuscated") && !(fileName.contains("customDev"))) {
+                        apkVersion = fileName.split("-")[4].replace('_', '.');
+                        return apkVersion;
                     }
                 }
-            } catch (Exception e) {
-                System.out.println("Could not fetch apk version");
-                e.printStackTrace();
             }
-            return apkVersion;
-
+        } catch (Exception e) {
+            System.out.println("Could not fetch apk version");
+            e.printStackTrace();
         }
-
-        public void setApkVersion(int runId){
-            String buildVersion=fetchApkVersion();
-            Run run= new Run();
-            run.setRunId(runId);
-            run.setApkVersion((buildVersion));
-            benchmarkDao.updateBuildVersionForRun(run);
-        }
+        return apkVersion;
 
     }
+
+    public void setApkVersion(int runId){
+        String buildVersion=fetchApkVersion();
+        Run run= new Run();
+        run.setRunId(runId);
+        run.setApkVersion((buildVersion));
+        benchmarkDao.updateBuildVersionForRun(run);
+    }
+
+}

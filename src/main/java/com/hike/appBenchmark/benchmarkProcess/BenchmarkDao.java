@@ -52,4 +52,8 @@ public interface BenchmarkDao {
 
     int insertIntoRunData(@Param("runData") RunData runData);
 
+    List<RunData> getAllWantedValues();
+
+    void updateData(@Param("newTotal") Double newTotal, @Param("newAverage") Double newAverage, @Param("id") int id, @Param("action") String action);
+
 }
