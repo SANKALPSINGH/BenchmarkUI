@@ -33,8 +33,8 @@ public class BuildApkThread implements Runnable {
         //TODO CHANGE TO FALSE
         boolean apkSuccess = true;
 
-        //apkSuccess = jenkinsService.getLatestapk(apkBranch, runId);
-        jenkinsService.moveApk(runId);
+        apkSuccess = jenkinsService.getLatestapk(apkBranch, runId);
+        //jenkinsService.moveApk(runId);
         if (apkSuccess) {
             setApkVersion(runId);
 
@@ -42,10 +42,8 @@ public class BuildApkThread implements Runnable {
             //get list of percentiles available
             List<Percentile> percentileObjects = benchmarkDao.getAllPercentiles();
             for(Percentile eachPercentile : percentileObjects) {
-                if(eachPercentile.getPercentile() == 50) {
-                    BenchmarkProcessInDeviceDistributor processInDevice = new BenchmarkProcessInDeviceDistributor(eachPercentile, messageSource, runId, benchmarkDao);
-                    runBenchmarkExecutorService.execute(processInDevice);
-                }
+                BenchmarkProcessInDeviceDistributor processInDevice = new BenchmarkProcessInDeviceDistributor(eachPercentile, messageSource, runId, benchmarkDao);
+                runBenchmarkExecutorService.execute(processInDevice);
             }
             runBenchmarkExecutorService.shutdown();
         }//TODO handle failure part here

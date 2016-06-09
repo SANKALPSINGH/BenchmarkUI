@@ -5,7 +5,6 @@ package com.hike.appBenchmark.benchmarkProcess;
 
 
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hike.appBenchmark.jenkins.JenkinsService;
 import com.hike.appBenchmark.models.Run;
-import com.hike.appBenchmark.models.RunData;
 
 /**
  * @author kumarpratyush
@@ -86,20 +84,6 @@ public class BenchmarkApplicationController {
         }
         response.put("runId", runId);
         return response;
-    }
-
-    @RequestMapping(value="/fixResults")
-    public String fixResults(Model model) {
-
-        List<RunData> alldata = benchmarkDao.getAllWantedValues();
-        for(RunData eachData : alldata) {
-            int id = eachData.getRunPercentile().getRunPercentileId();
-            Double newTotal = eachData.getReading1() + eachData.getReading2() + eachData.getReading3() + eachData.getReading4() + eachData.getReading5();
-            Double newAverage = newTotal/5.0;
-            String action = eachData.getAction().getActions();
-            benchmarkDao.updateData(newTotal, newAverage, id, action);
-        }
-        return "runTest";
     }
 
 }

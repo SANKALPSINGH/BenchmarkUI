@@ -70,7 +70,7 @@ public class BenchmarkProcessInDeviceDistributor implements Runnable {
             //start process for ui run
             //push test code
             List<String> commandParams =  new ArrayList<String>();
-            String pathOfSrcJar = "/Users/" + userName + "/Documents/marsWorkspace/UIAutomation/bin/";
+            String pathOfSrcJar = "/Users/" + userName + "/Documents/workspace/UIAutomation/bin/";
             /*commandParams.add(messageSource.getMessage("adb.command", null, null));
             commandParams.add(messageSource.getMessage("adb.push", null, null));
             commandParams.add(pathOfSrcJar);

@@ -36,14 +36,6 @@
 			#{runData.reading3}, #{runData.reading4}, #{runData.reading5}, #{runData.total}, #{runData.average})
 	</insert>
 
-	<select id="getAllWantedValues" resultMap="RunDataMap">
-		Select rd.action, rd.reading1, rd.reading2, rd.reading3, rd.reading4, rd.reading5, rd.total, rd.average, rd.run_percentile as run_percentile_id from run_data rd where action="App Force Kill" or action = "App Force Stop"
-	</select>
-
-	<update id="updateData">
-		update run_data set total=#{newTotal}, average=#{newAverage} where run_percentile=#{id} and action=#{action}
-	</update>
-
 	<resultMap id="PercentileMap" type="Percentile">
 		<result property="percentile" column="run_percentile_number" />
 		<result property="msisdn" column="msisdn" />
@@ -52,29 +44,6 @@
 
 	<resultMap id="ActionMap" type="Actions">
 		<result property="actions" column="actions" />
-	</resultMap>
-
-	<resultMap id="RunDataMap" type="RunData">
-		<result property="reading1" column="reading1" />
-		<result property="reading2" column="reading2" />
-		<result property="reading3" column="reading3" />
-		<result property="reading4" column="reading4" />
-		<result property="reading5" column="reading5" />
-		<result property="total" column="total" />
-		<result property="average" column="average" />
-		<result property="action.actions" column="action" />
-		<result property="runPercentile.runPercentileId" column="run_percentile_id" />
-		<!-- <association property="runPercentile" resultMap="RunPercentileMap" /> -->
-	</resultMap>
-
-	<resultMap id="RunDataActionMap" type="Actions">
-		<result property="actions" column="action" />
-	</resultMap>
-
-	<resultMap id="RunPercentileMap" type="RunPercentile">
-		<result property="runPercentileId" column="run_percentile_id" />
-		<!-- <association property="run" resultMap="RunMap" /> -->
-		<!-- <association property="runPercentile" resultMap="PercentileMap" /> -->
 	</resultMap>
 
 </mapper>
