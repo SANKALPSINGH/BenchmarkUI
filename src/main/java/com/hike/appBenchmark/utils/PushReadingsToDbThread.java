@@ -115,7 +115,7 @@ public class PushReadingsToDbThread implements Runnable {
                     } if(counterOfChatScrolling >= 5) {
                         chatScrollingFinished = true;
                         chatOpeningFinished = false;
-                        counterOfChatOpening = 0;
+                       // counterOfChatOpening = 0;
                         continue;
                     }
                 }
